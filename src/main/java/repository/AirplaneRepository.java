@@ -29,9 +29,9 @@ public class AirplaneRepository {
                         .withName(resultSet.getString("AP_NAME"))
                         .withShortName(resultSet.getString("AP_SHORT_NAME"))
                         .withCapacity(resultSet.getInt("AP_CAPACITY"))
+                        .withState(resultSet.getBoolean("AP_STATE"))
                         .withAirlineId(resultSet.getInt("AL_ID"))
                         .withAirlineName(resultSet.getString("AL_NAME"))
-                        .withAirlineShortName(resultSet.getString("AL_SHORT_NAME"))
                         .builder();
                 airplaneDTOList.add(airplaneDTO);
             }
@@ -48,12 +48,13 @@ public class AirplaneRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "INSERT INTO AIRPLANE (NAME,SHORT_NAME,CAPACITY,AL_ID) VALUES (?,?,?,?)";
+            String query = "INSERT INTO AIRPLANE (NAME,SHORT_NAME,CAPACITY,STATE,AL_ID) VALUES (?,?,?,?,?)";
             pstm = conn.prepareStatement(query);
             pstm.setString(1, airplane.getName());
             pstm.setString(2, airplane.getShortName());
             pstm.setInt(3,airplane.getCapacity());
-            pstm.setInt(4,airplane.getAlId());
+            pstm.setBoolean(4,airplane.isState());
+            pstm.setInt(5,airplane.getAlId());
             pstm.execute();
             return true;
         }catch (SQLException e){
@@ -127,5 +128,24 @@ public class AirplaneRepository {
             conn.close();
         }
         return airplaneList;
+    }
+
+    public boolean active(int id, boolean state) throws SQLException, ClassNotFoundException {
+        Connection conn = ConectionConfig.getConection();
+        PreparedStatement pstm = null;
+        try{
+            String query = "UPDATE  AIRPLANE SET STATE = ? WHERE ID = ?";
+            pstm = conn.prepareStatement(query);
+            pstm.setBoolean(1,!state);
+            pstm.setInt(2,id);
+            pstm.executeUpdate();
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            pstm.close();
+            conn.close();
+        }
     }
 }

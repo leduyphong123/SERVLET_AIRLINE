@@ -4,14 +4,24 @@ public class Airline {
     private int id;
     private String name;
     private String shortName;
+    private boolean state;
 
     public Airline() {
     }
 
-    public Airline(int id, String name, String shortName) {
+    public Airline(int id, String name, String shortName, boolean state) {
         this.id = id;
         this.name = name;
         this.shortName = shortName;
+        this.state = state;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     public int getId() {
@@ -44,6 +54,7 @@ public class Airline {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", shortName='" + shortName + '\'' +
+                ", state=" + state +
                 '}';
     }
 }

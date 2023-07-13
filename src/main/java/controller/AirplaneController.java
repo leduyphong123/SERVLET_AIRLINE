@@ -138,6 +138,18 @@ public class AirplaneController extends HttpServlet{
                     throw new RuntimeException(e);
                 }
                 break;
+            case "active":
+                int id = Integer.parseInt(request.getParameter("id"));
+                boolean state = Boolean.parseBoolean(request.getParameter("state"));
+                try {
+                    boolean result = airplaneSerice.active(id,state);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                response.sendRedirect("/chair");
+                break;
         }
     }
 

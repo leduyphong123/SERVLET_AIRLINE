@@ -57,6 +57,14 @@
             overflow-y: auto;
             /* Scrollable contents if viewport is shorter than content. */
         }
+        .action-btn {
+            margin-right: 5px;
+        }
+
+        .wrapper-active-btn {
+            padding-left: 1.9rem !important;
+            padding-right: 1.9rem !important;
+        }
     </style>
 </head>
 
@@ -67,16 +75,22 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-                <a href="/dasboard" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                <a href="#" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
                     <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
                 </a>
-                <a href="/city" class="list-group-item list-group-item-action py-2 ripple ">
+                <a href="/city" class="list-group-item list-group-item-action py-2 ripple">
                     <i class="fas fa-chart-area fa-fw me-3"></i><span>City</span>
                 </a>
                 <a href="/airline" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-lock fa-fw me-3"></i><span>AirLine</span></a>
                 <a href="/airplane" class="list-group-item list-group-item-action py-2 ripple active"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>AirPlane</span></a>
+                <a href="/chair" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
+                <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
+                <a href="/flight" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
 
             </div>
         </div>
@@ -155,8 +169,7 @@
                                 <th scope="col">Short Name</th>
                                 <th scope="col">Storage</th>
                                 <th scope="col">Ariline Name</th>
-                                <th scope="col" style="width: 20px;">Edit</th>
-                                <th scope="col" style="width: 20px;">Delete</th>
+                                <th class="col-3" scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -169,10 +182,22 @@
                                     <td>${element.getShortName()}</td>
                                     <td>${element.getCapacity()}</td>
                                     <td>${element.getAlName()}</td>
-                                    <td><a class="btn btn-primary" href="/airplane?aution=edit&id=${element.getId()}"
-                                           role="button">Edit</a></td>
-                                    <td><a class="btn btn-danger" href="/airplane"
-                                           onclick="alertDelete(${element.getId()})" role="button">Delete</a></td>
+                                    <td class="d-flex justify-content-center">
+                                        <a class="btn btn-primary action-btn"
+                                           href="/airplane?aution=edit&id=${element.getId()}" role="button">Edit</a>
+                                        <c:choose>
+                                            <c:when test="${element.isState()==true}">
+                                                <a class="btn btn-success" href="/airplane"
+                                                   onclick="alertActive(${element.getId()},${element.isState()})"
+                                                   role="button">in active</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="btn btn-danger wrapper-active-btn" href="/airplane"
+                                                   onclick="alertActive(${element.getId()},${element.isState()})"
+                                                   role="button">active</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -190,9 +215,10 @@
 </main>
 
 <script>
-    function alertDelete(id) {
-        if (window.confirm('You Delete')) {
-            fetch(window.location.href + "?aution=delete&id=" + id, {
+    function alertActive(id,state){
+        if (window.confirm('You Not Active Airplane'))
+        {
+            fetch(window.location.href+"?aution=active&id="+id+"&state="+state, {
 
                 method: "post",
                 headers: {

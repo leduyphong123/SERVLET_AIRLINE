@@ -6,6 +6,7 @@ public class AirlineBuilder {
     private int id;
     private String name;
     private String shortName;
+    private boolean state;
 
     public AirlineBuilder withId(int id){
         this.id = id;
@@ -19,7 +20,11 @@ public class AirlineBuilder {
         this.shortName = shortName;
         return this;
     }
+    public AirlineBuilder withState(boolean state){
+        this.state = state;
+        return this;
+    }
     public Airline builder(){
-        return new Airline(id,name,shortName);
+        return new Airline(id,name,shortName,state);
     }
 }

@@ -6,6 +6,7 @@ public class CityBuilder {
     private int id;
     private String name;
     private String shortName;
+    private boolean state;
 
     public CityBuilder withId(int id){
         this.id = id;
@@ -19,7 +20,11 @@ public class CityBuilder {
         this.shortName = shortName;
         return this;
     }
+    public CityBuilder withState(boolean state){
+        this.state = state;
+        return this;
+    }
     public City builder(){
-        return new City(id,name,shortName);
+        return new City(id,name,shortName,state);
     }
 }

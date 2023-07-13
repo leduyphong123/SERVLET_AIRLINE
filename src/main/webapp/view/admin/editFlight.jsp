@@ -1,3 +1,5 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.sql.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -70,7 +72,7 @@
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
                     <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
                 </a>
-                <a href="/city" class="list-group-item list-group-item-action py-2 ripple active">
+                <a href="/city" class="list-group-item list-group-item-action py-2 ripple ">
                     <i class="fas fa-chart-area fa-fw me-3"></i><span>City</span>
                 </a>
                 <a href="/airline" class="list-group-item list-group-item-action py-2 ripple"><i
@@ -81,7 +83,7 @@
                         class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
                 <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
-                <a href="/flight" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/flight" class="list-group-item list-group-item-action py-2 ripple active"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
 
             </div>
@@ -145,64 +147,89 @@
 <main style="margin-top: 58px;">
     <div class="container pt-4 ">
         <div class="row justify-content-center">
-            <h2 class="col-12 text-center py-4 bg-body rounded shadow-sm text-info">City manager</h2>
+            <h2 class="col-12 text-center py-4 bg-body rounded shadow-sm text-info">Flight manager</h2>
             <div class="col-12 my-4">
-                <a class="btn btn-success" href="/city" role="button">List city</a>
+                <a class="btn btn-success" href="/flight" role="button">List flight</a>
 
             </div>
             <div class="col-12 py-5 bg-body shadow-sm">
-                <h3 class="my-3 text-center">New City</h3>
+                <h3 class="my-3 text-center">Edit Flight</h3>
 
                 <div class="row justify-content-center">
+
                     <div class="col-8">
-                        <form action="/city?aution=create" method="post">
+                        <form action="/airplaneChair?aution=edit&id=${element.getId()}" method="post">
+                            <select class="form-select mt-3" aria-label="Default select example" name="toCity">
+                                <c:forEach items="${elementListCityMin}" var="element">
+                                    <option value="${element.getId()}">${element.getName()}</option>
+                                </c:forEach>
+                            </select>
                             <div class="form-outline mt-3">
-                                <input type="text" id="name" name="name" class="form-control"/>
-                                <label class="form-label" for="name">Name</label>
+                                <input type="datetime-local" id="toDate" name="toDate" class="form-control" value="${element.getToDate()}"/>
+                                <label class="form-label" for="toDate">To date</label>
+                            </div>
+                            <select class="form-select mt-3" aria-label="Default select example" name="formCity">
+                                <c:forEach items="${elementListCityMin}" var="element">
+                                    <option value="${element.getId()}">${element.getName()}</option>
+                                </c:forEach>
+                            </select>
+                            <div class="form-outline mt-3">
+                                <input type="datetime-local" id="formDate" name="formDate" class="form-control" value="${element.getFormDate()}"/>
+                                <label class="form-label" for="formDate">Form date</label>
                             </div>
                             <div class="form-outline mt-3">
-                                <input type="text" id="shortName" name="shortName" class="form-control"/>
-                                <label class="form-label" for="shortName">Short name</label>
+                                <input type="text" id="usedCapacity" name="usedCapacity" class="form-control" value="${element.getUsedCapacity()}"/>
+                                <label class="form-label" for="usedCapacity">Used Capacity</label>
                             </div>
+
+                            <select class="form-select mt-3" aria-label="Default select example" name="apId">
+                                <c:forEach items="${elementListAirplaneMin}" var="element">
+                                    <option value="${element.getId()}">${element.getName()}</option>
+                                </c:forEach>
+                            </select>
+
                             <div class="button-submit text-center mt-3">
-                                <button type="submit" class="btn btn-primary btn-rounded mt-3 ">Create</button>
+                                <button type="submit" class="btn btn-primary btn-rounded mt-3 ">Edit</button>
                             </div>
                         </form>
-                    </div>
 
-                    <div class="col-6 p-2 m-0">
-                        <c:if test="${success}">
-                            <c:choose>
-                                <c:when test="${success == true}">
-                                    <div class="alert alert-success p-2 m-0" id="mesenger" role="alert">
-                                        Create city success
-                                    </div>
-                                    <script>
-                                        var clearMesenger = setTimeout(()=>{
-                                            var mesenger = document.getElementById("mesenger");
-                                            mesenger.style.visibility = "hidden"
-                                        },1000)
-                                    </script>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="alert alert-warning p-2 m-0" id="mesenger" role="alert">
-                                        Name char 50, Short Name char 10
-                                    </div>
-                                    <script>
-                                        var clearMesenger = setTimeout(()=>{
-                                            var mesenger = document.getElementById("mesenger");
-                                            mesenger.style.visibility = "hidden"
-                                        },1000)
-                                    </script>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:if>
+
+                        <div class="col-6 p-2 m-0">
+                            <c:if test="${success}">
+                                <c:choose>
+                                    <c:when test="${success == true}">
+                                        <div class="alert alert-success p-2 m-0" id="mesenger" role="alert">
+                                            Edit airplane chair success
+                                        </div>
+                                        <script>
+                                            var clearMesenger = setTimeout(() => {
+                                                var mesenger = document.getElementById("mesenger");
+                                                mesenger.style.visibility = "hidden"
+                                            }, 1000)
+                                        </script>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="alert alert-warning p-2 m-0" id="mesenger" role="alert">
+                                            Name char 50, Quantity min 0
+                                        </div>
+                                        <script>
+                                            var clearMesenger = setTimeout(() => {
+                                                var mesenger = document.getElementById("mesenger");
+                                                mesenger.style.visibility = "hidden"
+                                            }, 1000)
+                                        </script>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
+
 </main>
 <!--Main layout-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -213,6 +240,8 @@
         crossorigin="anonymous"></script>
 <!-- MDB -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+
+
 </body>
 
 </html>

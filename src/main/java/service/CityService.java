@@ -16,4 +16,6 @@ public interface CityService {
     boolean edit(int id, String name, String shortName) throws SQLException, ClassNotFoundException;
 
     boolean delete(int id) throws SQLException, ClassNotFoundException;
+
+    boolean active(int id, boolean state) throws SQLException, ClassNotFoundException;
 }

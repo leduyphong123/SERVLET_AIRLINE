@@ -8,6 +8,7 @@ public class AirplaneBuilder {
     private String name;
     private String shortName;
     private int capacity;
+    private boolean state;
     private int alId;
     public AirplaneBuilder withId(int id){
         this.id = id;
@@ -29,7 +30,11 @@ public class AirplaneBuilder {
         this.alId = alId;
         return this;
     }
+    public AirplaneBuilder withState(boolean state){
+        this.state =state;
+        return this;
+    }
     public Airplane builder(){
-        return new Airplane(id,name,shortName,capacity,alId);
+        return new Airplane(id,name,shortName,capacity,state,alId);
     }
 }

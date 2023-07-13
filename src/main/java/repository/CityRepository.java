@@ -25,6 +25,7 @@ public class CityRepository {
                         .withId(resultSet.getInt("ID"))
                         .withName(resultSet.getString("NAME"))
                         .withShortName(resultSet.getString("SHORT_NAME"))
+                        .withState(resultSet.getBoolean("STATE"))
                         .builder();
                 cityList.add(city);
             }
@@ -41,10 +42,11 @@ public class CityRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "INSERT INTO CITY (NAME,SHORT_NAME) VALUES (?,?)";
+            String query = "INSERT INTO CITY (NAME,SHORT_NAME,STATE) VALUES (?,?,?)";
             pstm = conn.prepareStatement(query);
             pstm.setString(1, city.getName());
             pstm.setString(2, city.getShortName());
+            pstm.setBoolean(3,city.isState());
             pstm.execute();
             return true;
         }catch (SQLException e){
@@ -88,6 +90,25 @@ public class CityRepository {
         }catch (SQLException e){
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public boolean active(int id, boolean state) throws SQLException, ClassNotFoundException {
+        Connection conn = ConectionConfig.getConection();
+        PreparedStatement pstm = null;
+        try{
+            String query = "UPDATE  CITY SET STATE = ? WHERE ID = ?";
+            pstm = conn.prepareStatement(query);
+            pstm.setBoolean(1,!state);
+            pstm.setInt(2,id);
+            pstm.executeUpdate();
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            pstm.close();
+            conn.close();
         }
     }
 }

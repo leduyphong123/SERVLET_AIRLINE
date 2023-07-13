@@ -70,7 +70,7 @@
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
                     <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
                 </a>
-                <a href="/city" class="list-group-item list-group-item-action py-2 ripple active">
+                <a href="/city" class="list-group-item list-group-item-action py-2 ripple">
                     <i class="fas fa-chart-area fa-fw me-3"></i><span>City</span>
                 </a>
                 <a href="/airline" class="list-group-item list-group-item-action py-2 ripple"><i
@@ -79,7 +79,7 @@
                         class="fas fa-chart-line fa-fw me-3"></i><span>AirPlane</span></a>
                 <a href="/chair" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
-                <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple active"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
                 <a href="/flight" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
@@ -145,28 +145,50 @@
 <main style="margin-top: 58px;">
     <div class="container pt-4 ">
         <div class="row justify-content-center">
-            <h2 class="col-12 text-center py-4 bg-body rounded shadow-sm text-info">City manager</h2>
+            <h2 class="col-12 text-center py-4 bg-body rounded shadow-sm text-info">Airplane chair manager</h2>
             <div class="col-12 my-4">
-                <a class="btn btn-success" href="/city" role="button">List city</a>
+                <a class="btn btn-success" href="/airplane" role="button">List airplane</a>
 
             </div>
             <div class="col-12 py-5 bg-body shadow-sm">
-                <h3 class="my-3 text-center">New City</h3>
+                <h3 class="my-3 text-center">New Airplane chair</h3>
 
                 <div class="row justify-content-center">
                     <div class="col-8">
-                        <form action="/city?aution=create" method="post">
+                        <form action="/airplaneChair?aution=create" method="post">
                             <div class="form-outline mt-3">
-                                <input type="text" id="name" name="name" class="form-control"/>
-                                <label class="form-label" for="name">Name</label>
+                                <input type="text" id="quantity" name="quantity" class="form-control"/>
+                                <label class="form-label" for="quantity">Quantity</label>
                             </div>
                             <div class="form-outline mt-3">
-                                <input type="text" id="shortName" name="shortName" class="form-control"/>
-                                <label class="form-label" for="shortName">Short name</label>
+                                <input type="text" id="price" name="price" class="form-control"/>
+                                <label class="form-label" for="price">Price</label>
                             </div>
+                            <div class="form-outline mt-3">
+                                <input type="text" id="used" name="used" class="form-control"/>
+                                <label class="form-label" for="used">Used</label>
+                            </div>
+                            <div class="form-outline mt-3">
+                                <input type="date" id="date" name="date" class="form-control"/>
+                                <label class="form-label" for="date">Date</label>
+                            </div>
+
+
+                            <select class="form-select mt-3" aria-label="Default select example" name="apId">
+
+                                <c:forEach items="${elementListAirplaneMin}" var="element">
+                                    <option value="${element.getId()}">${element.getName()}</option>
+                                </c:forEach>
+                            </select>
+                            <select class="form-select mt-3" aria-label="Default select example" name="cId">
+                                <c:forEach items="${elementListChairMin}" var="element">
+                                    <option value="${element.getId()}">${element.getName()}</option>
+                                </c:forEach>
+                            </select>
                             <div class="button-submit text-center mt-3">
                                 <button type="submit" class="btn btn-primary btn-rounded mt-3 ">Create</button>
                             </div>
+
                         </form>
                     </div>
 
@@ -175,13 +197,13 @@
                             <c:choose>
                                 <c:when test="${success == true}">
                                     <div class="alert alert-success p-2 m-0" id="mesenger" role="alert">
-                                        Create city success
+                                        Create airline chair success
                                     </div>
                                     <script>
-                                        var clearMesenger = setTimeout(()=>{
+                                        var clearMesenger = setTimeout(() => {
                                             var mesenger = document.getElementById("mesenger");
                                             mesenger.style.visibility = "hidden"
-                                        },1000)
+                                        }, 1000)
                                     </script>
                                 </c:when>
                                 <c:otherwise>
@@ -189,10 +211,10 @@
                                         Name char 50, Short Name char 10
                                     </div>
                                     <script>
-                                        var clearMesenger = setTimeout(()=>{
+                                        var clearMesenger = setTimeout(() => {
                                             var mesenger = document.getElementById("mesenger");
                                             mesenger.style.visibility = "hidden"
-                                        },1000)
+                                        }, 1000)
                                     </script>
                                 </c:otherwise>
                             </c:choose>
@@ -204,6 +226,7 @@
 
     </div>
 </main>
+
 <!--Main layout-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

@@ -15,4 +15,6 @@ public interface AirlineService {
     boolean edit(int id, String name, String shortName) throws SQLException, ClassNotFoundException;
 
     boolean create(String name, String shortName) throws SQLException, ClassNotFoundException;
+
+    boolean active(int id, boolean state) throws SQLException, ClassNotFoundException;
 }

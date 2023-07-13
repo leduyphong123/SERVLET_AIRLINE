@@ -18,4 +18,8 @@ public interface AirplaneService {
     boolean create(String name, String shortName,int capacity, int alId) throws SQLException, ClassNotFoundException;
 
     List<AirplaneDTO> getJoinAll() throws SQLException, ClassNotFoundException;
+
+    boolean active(int id, boolean state) throws SQLException, ClassNotFoundException;
+
+    Airplane getByApId(int apId) throws SQLException, ClassNotFoundException;
 }

@@ -22,6 +22,7 @@ public class CityServiceImpl implements CityService {
         city = new CityBuilder()
                 .withName(name)
                 .withShortName(shortName)
+                .withState(true)
                 .builder();
         return repository.create(city);
     }
@@ -57,5 +58,11 @@ public class CityServiceImpl implements CityService {
     @Override
     public boolean delete(int id) throws SQLException, ClassNotFoundException {
         return  repository.delete(id);
+    }
+
+    @Override
+    public boolean active(int id, boolean state) throws SQLException, ClassNotFoundException {
+
+        return repository.active(id,state);
     }
 }

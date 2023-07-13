@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,11 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
   <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
   <style>
     body {
       background-color: #fbfbfb;
@@ -70,7 +71,7 @@
         <a href="#" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
           <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
         </a>
-        <a href="/city" class="list-group-item list-group-item-action py-2 ripple active">
+        <a href="/city" class="list-group-item list-group-item-action py-2 ripple ">
           <i class="fas fa-chart-area fa-fw me-3"></i><span>City</span>
         </a>
         <a href="/airline" class="list-group-item list-group-item-action py-2 ripple"><i
@@ -79,9 +80,9 @@
                 class="fas fa-chart-line fa-fw me-3"></i><span>AirPlane</span></a>
         <a href="/chair" class="list-group-item list-group-item-action py-2 ripple"><i
                 class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
-        <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
+        <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple active"><i
                 class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
-        <a href="/flight" class="list-group-item list-group-item-action py-2 ripple"><i
+        <a href="/flight" class="list-group-item list-group-item-action py-2 ripple "><i
                 class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
 
       </div>
@@ -94,20 +95,21 @@
     <!-- Container wrapper -->
     <div class="container-fluid">
       <!-- Toggle button -->
-      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#sidebarMenu"
-              aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+              data-mdb-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+              aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
       </button>
 
       <!-- Brand -->
       <a class="navbar-brand" href="#">
         <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="25"
-             alt="MDB Logo" loading="lazy"/>
+             alt="MDB Logo" loading="lazy" />
       </a>
       <!-- Search form -->
       <form class="d-none d-md-flex input-group w-auto my-auto">
         <input autocomplete="off" type="search" class="form-control rounded"
-               placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px;"/>
+               placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px;" />
         <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
       </form>
 
@@ -117,9 +119,10 @@
         <!-- Avatar -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
-             id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" class="rounded-circle"
-                 height="22" alt="Avatar" loading="lazy"/>
+             id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown"
+             aria-expanded="false">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
+                 class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
             <li>
@@ -143,71 +146,32 @@
 
 <!--Main layout-->
 <main style="margin-top: 58px;">
-  <div class="container pt-4 ">
+  <div class="container pt-4">
     <div class="row justify-content-center">
-      <h2 class="col-12 text-center py-4 bg-body rounded shadow-sm text-info">City manager</h2>
+      <h2 class="col-12 text-center py-4 bg-body rounded shadow-sm text-info">Airplane chair manager
+      </h2>
       <div class="col-12 my-4">
-        <a class="btn btn-success" href="/city" role="button">List city</a>
-
+        <a class="btn btn-success" href="/airplaneChair" role="button">List airplane chair</a>
       </div>
       <div class="col-12 py-5 bg-body shadow-sm">
-        <h3 class="my-3 text-center">New City</h3>
-
-        <div class="row justify-content-center">
-
-
-          <div class="col-8">
-            <form action="/city?aution=edit&id=${element.getId()}" method="post">
-              <div class="form-outline mt-3">
-                <input type="text" id="name" name="name" class="form-control" value="${element.getName()}"/>
-                <label class="form-label" for="name">Name</label>
-              </div>
-              <div class="form-outline mt-3">
-                <input type="text" id="shortName" name="shortName" class="form-control" value="${element.getShortName()}"/>
-
-                <label class="form-label" for="shortName">Short name</label>
-              </div>
-              <div class="button-submit text-center mt-3">
-                <button type="submit" class="btn btn-primary btn-rounded mt-3 ">Update</button>
-              </div>
-            </form>
-          </div>
-
-          <div class="col-6 p-2 m-0">
-            <c:if test="${success}">
-              <c:choose>
-                <c:when test="${success == true}">
-                  <div class="alert alert-success p-2 m-0" id="mesenger" role="alert">
-                    Edit city success
-                  </div>
-                  <script>
-                    var clearMesenger = setTimeout(()=>{
-                      var mesenger = document.getElementById("mesenger");
-                      mesenger.style.visibility = "hidden"
-                    },1000)
-                  </script>
-                </c:when>
-                <c:otherwise>
-                  <div class="alert alert-warning p-2 m-0" id="mesenger" role="alert">
-                    Name char 50, Short Name char 10
-                  </div>
-                  <script>
-                    var clearMesenger = setTimeout(()=>{
-                      var mesenger = document.getElementById("mesenger");
-                      mesenger.style.visibility = "hidden"
-                    },1000)
-                  </script>
-                </c:otherwise>
-              </c:choose>
-            </c:if>
-          </div>
-
+        <div class="mx-5 px-5">
+          <h3 class="my-3">Airplane chair detail</h3>
+          <div><span class="fw-bold text-uppercase">Airline Name: </span><span>${airline.getName()}</span></div>
+          <div><span class="fw-bold text-uppercase">Airline Short Name: </span><span>${airline.getShortName()}</span></div>
+          <div><span class="fw-bold text-uppercase">Airplane Name: </span><span>${element.getApName()}</span></div>
+          <div><span class="fw-bold text-uppercase">Airplane Short Name: </span><span>${element.getApShortName()}</span></div>
+          <div><span class="fw-bold text-uppercase">Airplane Capacity: </span><span>${element.getApCapacity()}</span></div>
+          <div><span class="fw-bold text-uppercase">Chair Name: </span><span>${element.getcName()}</span></div>
+          <div><span class="fw-bold text-uppercase">Quantity: </span><span>${element.getQuantity()}</span></div>
+          <div><span class="fw-bold text-uppercase">Price: </span><span>${element.getPrice()}</span></div>
+          <div><span class="fw-bold text-uppercase">Used: </span><span>${element.getUsed()}</span></div>
+          <div><span class="fw-bold text-uppercase">Date: </span><span>${element.getPlayDate()}</span></div>
         </div>
+
       </div>
     </div>
 
   </div>
-
 </main>
 <!--Main layout-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -217,9 +181,8 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 <!-- MDB -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
-
-
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
 </body>
 
 </html>

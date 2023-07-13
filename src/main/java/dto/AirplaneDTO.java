@@ -5,21 +5,29 @@ public class AirplaneDTO {
     private String name;
     private String shortName;
     private int capacity;
+    private boolean state;
     private int alId;
     private String alName;
-    private String alShortName;
 
     public AirplaneDTO() {
     }
 
-    public AirplaneDTO(int id, String name, String shortName, int capacity, int alId, String alName, String alShortName) {
+    public AirplaneDTO(int id, String name, String shortName, int capacity, boolean state, int alId, String alName) {
         this.id = id;
         this.name = name;
         this.shortName = shortName;
         this.capacity = capacity;
+        this.state = state;
         this.alId = alId;
         this.alName = alName;
-        this.alShortName = alShortName;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     public int getId() {
@@ -70,14 +78,6 @@ public class AirplaneDTO {
         this.alName = alName;
     }
 
-    public String getAlShortName() {
-        return alShortName;
-    }
-
-    public void setAlShortName(String alShortName) {
-        this.alShortName = alShortName;
-    }
-
     @Override
     public String toString() {
         return "AirplaneDTO{" +
@@ -85,9 +85,9 @@ public class AirplaneDTO {
                 ", name='" + name + '\'' +
                 ", shortName='" + shortName + '\'' +
                 ", capacity=" + capacity +
+                ", state=" + state +
                 ", alId=" + alId +
                 ", alName='" + alName + '\'' +
-                ", alShortName='" + alShortName + '\'' +
                 '}';
     }
 }

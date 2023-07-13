@@ -8,11 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
     <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
     <style>
         body {
             background-color: #fbfbfb;
@@ -57,6 +57,15 @@
             overflow-y: auto;
             /* Scrollable contents if viewport is shorter than content. */
         }
+
+        .action-btn {
+            margin-right: 5px;
+        }
+
+        .wrapper-active-btn {
+            padding-left: 1.9rem !important;
+            padding-right: 1.9rem !important;
+        }
     </style>
 </head>
 
@@ -67,16 +76,22 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-                <a href="/dasboard" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                <a href="#" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
                     <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
                 </a>
-                <a href="/city" class="list-group-item list-group-item-action py-2 ripple ">
+                <a href="/city" class="list-group-item list-group-item-action py-2 ripple">
                     <i class="fas fa-chart-area fa-fw me-3"></i><span>City</span>
                 </a>
                 <a href="/airline" class="list-group-item list-group-item-action py-2 ripple active"><i
                         class="fas fa-lock fa-fw me-3"></i><span>AirLine</span></a>
                 <a href="/airplane" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>AirPlane</span></a>
+                <a href="/chair" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
+                <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
+                <a href="/flight" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
 
             </div>
         </div>
@@ -96,12 +111,12 @@
             <!-- Brand -->
             <a class="navbar-brand" href="#">
                 <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="25"
-                     alt="MDB Logo" loading="lazy" />
+                     alt="MDB Logo" loading="lazy"/>
             </a>
             <!-- Search form -->
             <form class="d-none d-md-flex input-group w-auto my-auto">
                 <input autocomplete="off" type="search" class="form-control rounded"
-                       placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px;" />
+                       placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px;"/>
                 <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
             </form>
 
@@ -113,7 +128,7 @@
                     <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                        id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" class="rounded-circle"
-                             height="22" alt="Avatar" loading="lazy" />
+                             height="22" alt="Avatar" loading="lazy"/>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                         <li>
@@ -153,19 +168,33 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Short Name</th>
-                                <th scope="col" style="width: 20px;">Edit</th>
-                                <th scope="col" style="width: 20px;">Delete</th>
+                                <th class="col-3" scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <% int i=0;%>
+                            <% int i = 0;%>
                             <c:forEach items="${elementList}" var="element">
                                 <tr>
-                                    <th scope="row"><%=i+=1%></th>
+                                    <th scope="row"><%=i += 1%>
+                                    </th>
                                     <td>${element.getName()}</td>
                                     <td>${element.getShortName()}</td>
-                                    <td><a class="btn btn-primary" href="/airline?aution=edit&id=${element.getId()}" role="button">Edit</a></td>
-                                    <td><a class="btn btn-danger" href="/airline" onclick="alertDelete(${element.getId()})" role="button">Delete</a></td>
+                                    <td class="d-flex justify-content-center">
+                                        <a class="btn btn-primary action-btn"
+                                           href="/airline?aution=edit&id=${element.getId()}" role="button">Edit</a>
+                                        <c:choose>
+                                            <c:when test="${element.isState()==true}">
+                                                <a class="btn btn-success" href="/airline"
+                                                   onclick="alertActive(${element.getId()},${element.isState()})"
+                                                   role="button">in active</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="btn btn-danger wrapper-active-btn" href="/airline"
+                                                   onclick="alertActive(${element.getId()},${element.isState()})"
+                                                   role="button">active</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -183,10 +212,10 @@
 </main>
 
 <script>
-    function alertDelete(id){
-        if (window.confirm('You Delete'))
+    function alertActive(id,state){
+        if (window.confirm('You Not Active Airline'))
         {
-            fetch(window.location.href+"?aution=delete&id="+id, {
+            fetch(window.location.href+"?aution=active&id="+id+"&state="+state, {
 
                 method: "post",
                 headers: {

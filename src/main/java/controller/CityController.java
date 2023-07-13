@@ -98,6 +98,18 @@ public class CityController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "active":
+                int id = Integer.parseInt(request.getParameter("id"));
+                boolean state = Boolean.parseBoolean(request.getParameter("state"));
+                try {
+                    boolean result = cityService.active(id,state);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                response.sendRedirect("/city");
+                break;
         }
     }
 

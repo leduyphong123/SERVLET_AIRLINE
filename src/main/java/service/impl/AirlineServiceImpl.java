@@ -50,8 +50,14 @@ public class AirlineServiceImpl implements AirlineService {
         airline = new AirlineBuilder()
                 .withName(name)
                 .withShortName(shortName)
+                .withState(true)
                 .builder();
         return repository.create(airline);
+    }
+
+    @Override
+    public boolean active(int id, boolean state) throws SQLException, ClassNotFoundException {
+        return repository.active(id,state);
     }
 
     private static boolean checkLength(String name, String shortName) {

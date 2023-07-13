@@ -80,6 +80,10 @@
                         class="fas fa-chart-line fa-fw me-3"></i><span>AirPlane</span></a>
                 <a href="/chair" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
+                <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
+                <a href="/flight" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
 
             </div>
         </div>

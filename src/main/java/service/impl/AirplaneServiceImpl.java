@@ -55,6 +55,7 @@ public class AirplaneServiceImpl implements AirplaneService {
                 .withShortName(shortName)
                 .withCapacity(capacity)
                 .withAirlineId(alId)
+                .withState(true)
                 .builder();
         return repository.create(airplane);
     }
@@ -62,6 +63,21 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Override
     public List<AirplaneDTO> getJoinAll() throws SQLException, ClassNotFoundException {
         return repository.getJoinAll();
+    }
+
+    @Override
+    public boolean active(int id, boolean state) throws SQLException, ClassNotFoundException {
+        return repository.active(id,state);
+    }
+
+    @Override
+    public Airplane getByApId(int apId) throws SQLException, ClassNotFoundException {
+        for (Airplane element : getAll()){
+            if(element.getAlId()==apId){
+                return element;
+            }
+        }
+        return null;
     }
 
 

@@ -4,14 +4,24 @@ public class City {
     private int id;
     private String name;
     private String shortName;
+    private boolean state;
 
     public City() {
     }
 
-    public City(int id, String name, String shortName) {
+    public City(int id, String name, String shortName, boolean state) {
         this.id = id;
         this.name = name;
         this.shortName = shortName;
+        this.state = state;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     public int getId() {
@@ -44,6 +54,7 @@ public class City {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", shortName='" + shortName + '\'' +
+                ", state=" + state +
                 '}';
     }
 }

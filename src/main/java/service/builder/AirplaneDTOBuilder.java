@@ -8,9 +8,9 @@ public class AirplaneDTOBuilder {
     private String name;
     private String shortName;
     private int capacity;
+    private boolean state;
     private int alId;
     private String alName;
-    private String alShortName;
     public AirplaneDTOBuilder withId(int id){
         this.id = id;
         return this;
@@ -27,6 +27,10 @@ public class AirplaneDTOBuilder {
         this.capacity = capacity;
         return this;
     }
+    public AirplaneDTOBuilder withState(boolean state){
+        this.state =state;
+        return this;
+    }
     public AirplaneDTOBuilder withAirlineId(int alId){
         this.alId = alId;
         return this;
@@ -35,11 +39,8 @@ public class AirplaneDTOBuilder {
         this.alName = alName;
         return this;
     }
-    public AirplaneDTOBuilder withAirlineShortName(String alShortName){
-        this.alShortName = alShortName;
-        return this;
-    }
+
     public AirplaneDTO builder(){
-        return new AirplaneDTO(id,name,shortName,capacity,alId,alName,alShortName);
+        return new AirplaneDTO(id,name,shortName,capacity,state,alId,alName);
     }
 }
