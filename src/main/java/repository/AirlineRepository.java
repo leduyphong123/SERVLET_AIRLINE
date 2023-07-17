@@ -12,14 +12,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.Query.*;
+
 public class AirlineRepository {
     public List<Airline> getAll() throws SQLException, ClassNotFoundException {
         List<Airline> airlineList = new ArrayList<>();
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "SELECT * FROM AIRLINE";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(R_AIRLINE);
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 Airline airline = new AirlineBuilder()
@@ -43,8 +44,7 @@ public class AirlineRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "INSERT INTO AIRLINE (NAME,SHORT_NAME,STATE) VALUES (?,?,?)";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(C_AIRLINE);
             pstm.setString(1, airline.getName());
             pstm.setString(2, airline.getShortName());
             pstm.setBoolean(3,airline.isState());
@@ -63,8 +63,7 @@ public class AirlineRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "UPDATE  AIRLINE SET NAME = ?,SHORT_NAME = ? WHERE ID = ?";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(U_AIRLINE);
             pstm.setString(1, airline.getName());
             pstm.setString(2, airline.getShortName());
             pstm.setInt(3, airline.getId());
@@ -83,8 +82,7 @@ public class AirlineRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "DELETE FROM AIRLINE WHERE ID = ?";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(D_AIRLINE);
             pstm.setInt(1,id);
             pstm.execute();
             return true;
@@ -99,8 +97,7 @@ public class AirlineRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try{
-            String query = "UPDATE  AIRLINE SET STATE = ? WHERE ID = ?";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(U_STATE_AIRLINE);
             pstm.setBoolean(1,!state);
             pstm.setInt(2,id);
             pstm.executeUpdate();
@@ -112,5 +109,32 @@ public class AirlineRepository {
             pstm.close();
             conn.close();
         }
+    }
+
+    public List<Airline> getPageAll(int start, int limit) throws SQLException, ClassNotFoundException {
+        List<Airline> airlineList = new ArrayList<>();
+        Connection conn = ConectionConfig.getConection();
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(R_LIMIT_AIRLINE);
+            pstm.setInt(1,start);
+            pstm.setInt(2,limit);
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                Airline airline = new AirlineBuilder()
+                        .withId(resultSet.getInt("ID"))
+                        .withName(resultSet.getString("NAME"))
+                        .withShortName(resultSet.getString("SHORT_NAME"))
+                        .withState(resultSet.getBoolean("STATE"))
+                        .builder();
+                airlineList.add(airline);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            pstm.close();
+            conn.close();
+        }
+        return airlineList;
     }
 }

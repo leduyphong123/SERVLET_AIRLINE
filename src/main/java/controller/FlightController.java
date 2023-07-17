@@ -33,43 +33,55 @@ public class FlightController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String aution = request.getParameter("aution");
-        if (aution == null) {
-            aution = "";
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null){
+            String aution = request.getParameter("aution");
+            if (aution == null) {
+                aution = "";
+            }
+            RequestDispatcher dispatcher = null;
+            switch (aution) {
+                case "create":
+                    try {
+                        createView(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "edit":
+                    try {
+                        editViewCity(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "view":
+                    try {
+                        viewFlightDetail(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                default:
+                    try {
+                        getJoinAll(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+            }
+        }else {
+            response.sendRedirect("/login");
         }
-        RequestDispatcher dispatcher = null;
-        switch (aution) {
-            case "create":
-                try {
-                    createView(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            case "edit":
-                try {
-                    editViewCity(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            case "view":
-                try {
-                    viewFlightDetail(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            default:
-                getJoinAll(request, response);
-                break;
-        }
+
     }
 
     private void viewFlightDetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ClassNotFoundException, ServletException, IOException {
@@ -85,7 +97,7 @@ public class FlightController extends HttpServlet {
         request.setAttribute("airplane",airplane);
         Airline airline = airlineService.getById(airplane.getAlId());
         request.setAttribute("airline",airline);
-        List<AirplaneChairDTO> airplaneChairDTOList = airplaneChairService.getByApIdDate(flight.getApId(),flight.getToDate());
+        List<AirplaneChairDTO> airplaneChairDTOList = airplaneChairService.getByApIdDate(flight.getApId(),flight.getFormDate());
         request.setAttribute("airplaneChairDTOList",airplaneChairDTOList);
         RequestDispatcher dispatcher1 = request.getRequestDispatcher("view/admin/viewFlight.jsp");
         dispatcher1.forward(request, response);
@@ -93,8 +105,8 @@ public class FlightController extends HttpServlet {
 
     private void createView(HttpServletRequest request, HttpServletResponse response) throws SQLException, ClassNotFoundException, ServletException, IOException {
         RequestDispatcher dispatcher;
-        List<Airplane> airplaneList = airplaneService.getAll();
-        List<City> cityList = cityService.getAll();
+        List<Airplane> airplaneList = airplaneService.getStateAll();
+        List<City> cityList = cityService.getStateAll();
         request.setAttribute("elementListAirplaneMin", airplaneList);
         request.setAttribute("elementListCityMin", cityList);
         dispatcher = request.getRequestDispatcher("view/admin/createFlight.jsp");
@@ -115,16 +127,19 @@ public class FlightController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void getJoinAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void getJoinAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
         List<FlightDTO> flightDTOList = null;
+        int page = Integer.parseInt(request.getParameter("page"));
+
         try {
-            flightDTOList = flightService.getJoinAll();
+            flightDTOList = flightService.getPageAll(page);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
+        int indexPage = flightService.getIndexPage();
+        request.setAttribute("indexPage",indexPage);
         request.setAttribute("elementList", flightDTOList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/admin/flight.jsp");
         dispatcher.forward(request, response);

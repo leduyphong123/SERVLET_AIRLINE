@@ -18,4 +18,10 @@ public interface CityService {
     boolean delete(int id) throws SQLException, ClassNotFoundException;
 
     boolean active(int id, boolean state) throws SQLException, ClassNotFoundException;
+
+    List<City> getPageAll(int page) throws SQLException, ClassNotFoundException;
+
+    int getIndexPage() throws SQLException, ClassNotFoundException;
+
+    List<City> getStateAll() throws SQLException, ClassNotFoundException;
 }

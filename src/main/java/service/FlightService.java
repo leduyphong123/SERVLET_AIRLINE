@@ -24,4 +24,11 @@ public interface FlightService {
     boolean edit(int id,int toCity, String toDate, int formCity, String formDate, String usedCapacity, int apId) throws SQLException, ClassNotFoundException;
 
     Flight getJoinById(int id) throws SQLException, ClassNotFoundException;
+
+
+    void updateUsed(int idFlight, int flightUsedCapacity) throws SQLException, ClassNotFoundException;
+
+    List<FlightDTO> getPageAll(int page) throws SQLException, ClassNotFoundException;
+
+    int getIndexPage() throws SQLException, ClassNotFoundException;
 }

@@ -11,14 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static constant.Query.*;
+
 public class CityRepository {
     public List<City> getAll() throws SQLException, ClassNotFoundException {
         List<City> cityList = new ArrayList<>();
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "SELECT * FROM CITY";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(R_CITY);
             ResultSet resultSet = pstm.executeQuery();
             while (resultSet.next()) {
                 City city = new CityBuilder()
@@ -42,8 +43,7 @@ public class CityRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "INSERT INTO CITY (NAME,SHORT_NAME,STATE) VALUES (?,?,?)";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(C_CITY);
             pstm.setString(1, city.getName());
             pstm.setString(2, city.getShortName());
             pstm.setBoolean(3,city.isState());
@@ -62,8 +62,7 @@ public class CityRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "UPDATE  CITY SET NAME = ?,SHORT_NAME = ? WHERE ID = ?";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(U_CITY);
             pstm.setString(1, city.getName());
             pstm.setString(2, city.getShortName());
             pstm.setInt(3, city.getId());
@@ -82,8 +81,7 @@ public class CityRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String query = "DELETE FROM CITY WHERE ID = ?";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(D_CITY);
             pstm.setInt(1,id);
             pstm.execute();
             return true;
@@ -97,8 +95,7 @@ public class CityRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try{
-            String query = "UPDATE  CITY SET STATE = ? WHERE ID = ?";
-            pstm = conn.prepareStatement(query);
+            pstm = conn.prepareStatement(U_STATE_CITY);
             pstm.setBoolean(1,!state);
             pstm.setInt(2,id);
             pstm.executeUpdate();
@@ -110,5 +107,32 @@ public class CityRepository {
             pstm.close();
             conn.close();
         }
+    }
+
+    public List<City> getPageAll(int start, int limit) throws SQLException, ClassNotFoundException {
+        List<City> cityList = new ArrayList<>();
+        Connection conn = ConectionConfig.getConection();
+        PreparedStatement pstm = null;
+        try {
+            pstm = conn.prepareStatement(R_LIMIT_CITY);
+            pstm.setInt(1,start);
+            pstm.setInt(2,limit);
+            ResultSet resultSet = pstm.executeQuery();
+            while (resultSet.next()) {
+                City city = new CityBuilder()
+                        .withId(resultSet.getInt("ID"))
+                        .withName(resultSet.getString("NAME"))
+                        .withShortName(resultSet.getString("SHORT_NAME"))
+                        .withState(resultSet.getBoolean("STATE"))
+                        .builder();
+                cityList.add(city);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            pstm.close();
+            conn.close();
+        }
+        return cityList;
     }
 }

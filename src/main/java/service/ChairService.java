@@ -2,6 +2,7 @@ package service;
 
 import entity.Chair;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,4 +18,11 @@ public interface ChairService {
     boolean create(String name) throws SQLException, ClassNotFoundException;
 
     boolean active(int id,boolean state) throws SQLException, ClassNotFoundException;
+
+
+    List<Chair> getPageAll(int page) throws SQLException, ClassNotFoundException;
+
+    int getIndexPage() throws SQLException, ClassNotFoundException;
+
+    List<Chair> getStateAll() throws SQLException, ClassNotFoundException;
 }

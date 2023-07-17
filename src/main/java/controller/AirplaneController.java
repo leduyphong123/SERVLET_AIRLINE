@@ -23,34 +23,40 @@ public class AirplaneController extends HttpServlet{
     }
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String aution = request.getParameter("aution");
-        if (aution == null) {
-            aution = "";
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null){
+            String aution = request.getParameter("aution");
+            if (aution == null) {
+                aution = "";
+            }
+            RequestDispatcher dispatcher = null;
+            switch (aution) {
+                case "create":
+                    ceateView(request, response);
+                    break;
+                case "edit":
+                    try {
+                        editViewCity(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                default:
+                    try {
+                        getJoinAll(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+            }
+        }else {
+            response.sendRedirect("/login");
         }
-        RequestDispatcher dispatcher = null;
-        switch (aution) {
-            case "create":
-                ceateView(request, response);
-                break;
-            case "edit":
-                try {
-                    editViewCity(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            default:
-                try {
-                    getJoinAll(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-        }
+
     }
 
     private static void ceateView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -58,7 +64,7 @@ public class AirplaneController extends HttpServlet{
         AirlineService airlineService = new AirlineServiceImpl();
         List<Airline> airlineList = null;
         try {
-            airlineList = airlineService.getAll();
+            airlineList = airlineService.getStateAll();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -91,14 +97,17 @@ public class AirplaneController extends HttpServlet{
 
     private void getJoinAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
         List<AirplaneDTO> airplaneDTOList = null;
+        int page = Integer.parseInt(request.getParameter("page"));
+
         try {
-            airplaneDTOList = airplaneSerice.getJoinAll();
+            airplaneDTOList = airplaneSerice.getPageAll(page);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
+        int indexPage = airplaneSerice.getIndexPage();
+        request.setAttribute("indexPage",indexPage);
         request.setAttribute("elementList", airplaneDTOList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/admin/airplane.jsp");
         dispatcher.forward(request, response);

@@ -67,22 +67,24 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
+                <a href="/dasboard" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
                     <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
                 </a>
-                <a href="/city" class="list-group-item list-group-item-action py-2 ripple ">
+                <a href="/city?page=1" class="list-group-item list-group-item-action py-2 ripple">
                     <i class="fas fa-chart-area fa-fw me-3"></i><span>City</span>
                 </a>
-                <a href="/airline" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/airline?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-lock fa-fw me-3"></i><span>AirLine</span></a>
-                <a href="/airplane" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/airplane?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>AirPlane</span></a>
-                <a href="/chair" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/chair?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
-                <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/airplaneChair?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
-                <a href="/flight" class="list-group-item list-group-item-action py-2 ripple active"><i
+                <a href="/flight?page=1" class="list-group-item list-group-item-action py-2 ripple active"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
+                <a href="/booking?action=adminView&page=1" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-chart-line fa-fw me-3"></i><span>Booking</span></a>
 
             </div>
         </div>
@@ -129,7 +131,7 @@
                             <a class="dropdown-item" href="#">Settings</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Logout</a>
+                            <a class="dropdown-item" href="/login?action=logout">Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -147,7 +149,7 @@
         <div class="row justify-content-center">
             <h2 class="col-12 text-center py-4 bg-body rounded shadow-sm text-info">Flight manager</h2>
             <div class="col-12 my-4">
-                <a class="btn btn-success" href="/flight" role="button">List flight</a>
+                <a class="btn btn-success" href="/flight?page=1" role="button">List flight</a>
 
             </div>
             <div class="col-12 py-5 bg-body shadow-sm">
@@ -156,15 +158,7 @@
                 <div class="row justify-content-center">
                     <div class="col-8">
                         <form action="/flight?aution=create" method="post">
-                            <select class="form-select mt-3" aria-label="Default select example" name="toCity">
-                                <c:forEach items="${elementListCityMin}" var="element">
-                                    <option value="${element.getId()}">${element.getName()}</option>
-                                </c:forEach>
-                            </select>
-                            <div class="form-outline mt-3">
-                                <input type="datetime-local" id="toDate" name="toDate" class="form-control"/>
-                                <label class="form-label" for="toDate">To date</label>
-                            </div>
+
                             <select class="form-select mt-3" aria-label="Default select example" name="formCity">
                                 <c:forEach items="${elementListCityMin}" var="element">
                                     <option value="${element.getId()}">${element.getName()}</option>
@@ -173,6 +167,15 @@
                             <div class="form-outline mt-3">
                                 <input type="datetime-local" id="formDate" name="formDate" class="form-control"/>
                                 <label class="form-label" for="formDate">Form date</label>
+                            </div>
+                            <select class="form-select mt-3" aria-label="Default select example" name="toCity">
+                                <c:forEach items="${elementListCityMin}" var="element">
+                                    <option value="${element.getId()}">${element.getName()}</option>
+                                </c:forEach>
+                            </select>
+                            <div class="form-outline mt-3">
+                                <input type="datetime-local" id="toDate" name="toDate" class="form-control"/>
+                                <label class="form-label" for="toDate">To date</label>
                             </div>
                             <div class="form-outline mt-3">
                                 <input type="text" id="usedCapacity" name="usedCapacity" class="form-control"/>

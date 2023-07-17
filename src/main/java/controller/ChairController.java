@@ -20,29 +20,41 @@ public class ChairController extends HttpServlet{
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String aution = request.getParameter("aution");
-        if (aution == null) {
-            aution = "";
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null){
+            String aution = request.getParameter("aution");
+            if (aution == null) {
+                aution = "";
+            }
+            RequestDispatcher dispatcher = null;
+            switch (aution) {
+                case "create":
+                    dispatcher = request.getRequestDispatcher("view/admin/createChair.jsp");
+                    dispatcher.forward(request, response);
+                    break;
+                case "edit":
+                    try {
+                        editViewCity(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                default:
+                    try {
+                        getAll(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+            }
+        }else {
+            response.sendRedirect("/login");
         }
-        RequestDispatcher dispatcher = null;
-        switch (aution) {
-            case "create":
-                dispatcher = request.getRequestDispatcher("view/admin/createChair.jsp");
-                dispatcher.forward(request, response);
-                break;
-            case "edit":
-                try {
-                    editViewCity(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            default:
-                getAll(request, response);
-                break;
-        }
+
     }
 
     private void editViewCity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
@@ -55,16 +67,18 @@ public class ChairController extends HttpServlet{
         dispatcher.forward(request, response);
     }
 
-    private void getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
         List<Chair> chairList = null;
+        int page = Integer.parseInt(request.getParameter("page"));
         try {
-            chairList = chairService.getAll();
+            chairList = chairService.getPageAll(page);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
+        int indexPage = chairService.getIndexPage();
+        request.setAttribute("indexPage",indexPage);
         request.setAttribute("elementList", chairList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/admin/chair.jsp");
         dispatcher.forward(request, response);

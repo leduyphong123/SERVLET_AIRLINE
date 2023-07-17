@@ -6,6 +6,7 @@ import service.CityService;
 import service.builder.CityBuilder;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CityServiceImpl implements CityService {
@@ -64,5 +65,39 @@ public class CityServiceImpl implements CityService {
     public boolean active(int id, boolean state) throws SQLException, ClassNotFoundException {
 
         return repository.active(id,state);
+    }
+    private int limit = 5;
+    @Override
+    public List<City> getPageAll(int page) throws SQLException, ClassNotFoundException {
+        int start = (page - 1) * limit;
+        return repository.getPageAll(start, limit);
+    }
+    @Override
+    public int getIndexPage() throws SQLException, ClassNotFoundException {
+        return getIndex();
+    }
+
+    @Override
+    public List<City> getStateAll() throws SQLException, ClassNotFoundException {
+        List<City> cityList = new ArrayList<>();
+        for (City element : getAll()){
+            if (element.isState() == true){
+                cityList.add(element);
+            }
+        }
+        return cityList;
+    }
+
+    private int getIndex() throws SQLException, ClassNotFoundException {
+        int indexPageAll = getAll().size();
+        float curent =(float) indexPageAll/limit;
+        String[] temp = String.valueOf(curent).split("\\.");
+        int allPage=0;
+        if (Integer.parseInt(temp[1])>0){
+            allPage=Integer.parseInt(temp[0])+1;
+        }else {
+            allPage=Integer.parseInt(temp[0]);
+        }
+        return allPage;
     }
 }

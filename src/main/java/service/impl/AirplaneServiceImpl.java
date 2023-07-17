@@ -9,6 +9,7 @@ import service.builder.AirlineBuilder;
 import service.builder.AirplaneBuilder;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AirplaneServiceImpl implements AirplaneService {
@@ -79,7 +80,42 @@ public class AirplaneServiceImpl implements AirplaneService {
         }
         return null;
     }
+    private int limit = 5;
+    @Override
+    public List<AirplaneDTO> getPageAll(int page) throws SQLException, ClassNotFoundException {
+        int start = (page - 1) * limit;
+        return repository.getPageAll(start, limit);
+    }
 
+    @Override
+    public int getIndexPage() throws SQLException, ClassNotFoundException {
+        return getIndex();
+    }
+
+    @Override
+    public List<Airplane> getStateAll() throws SQLException, ClassNotFoundException {
+        List<Airplane> airplaneList = new ArrayList<>();
+        for (Airplane element : getAll()){
+            if (element.isState() == true){
+                airplaneList.add(element);
+            }
+        }
+        return airplaneList;
+    }
+
+
+    private int getIndex() throws SQLException, ClassNotFoundException {
+        int indexPageAll = getJoinAll().size();
+        float curent =(float) indexPageAll/limit;
+        String[] temp = String.valueOf(curent).split("\\.");
+        int allPage=0;
+        if (Integer.parseInt(temp[1])>0){
+            allPage=Integer.parseInt(temp[0])+1;
+        }else {
+            allPage=Integer.parseInt(temp[0]);
+        }
+        return allPage;
+    }
 
     private static boolean checkLength(String name, String shortName) {
         if(name.length()>=50 && shortName.length()>=10 && name.length()==0 && shortName.length()==0){

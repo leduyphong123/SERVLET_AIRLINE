@@ -22,4 +22,10 @@ public interface AirplaneService {
     boolean active(int id, boolean state) throws SQLException, ClassNotFoundException;
 
     Airplane getByApId(int apId) throws SQLException, ClassNotFoundException;
+
+    List<AirplaneDTO> getPageAll(int page) throws SQLException, ClassNotFoundException;
+
+    int getIndexPage() throws SQLException, ClassNotFoundException;
+
+    List<Airplane> getStateAll() throws SQLException, ClassNotFoundException;
 }

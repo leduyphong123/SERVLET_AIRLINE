@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -108,21 +111,33 @@
 <div class="container mt-5 py-5">
   <div class="row justify-content-center p-5 bg-body shadow rounded border-info border">
     <div class="col-10 ">
-      <form action="/login" method="post">
+      <form action="/search" method="post">
         <div class="d-flex justify-content-between">
           <div class="col-3">
-            <select class="form-select mt-3" aria-label="Default select example" name="formCity">
-              <option value="${element.getId()}">${element.getName()}</option>
-            </select>
+            <div class="input-group mt-3">
+              <span class="input-group-text" id="formCitys" style="padding: 20px 5px;">Form</span>
+              <select class="form-select" aria-label="Default select example" name="formCity"
+                      id="formCity">
+                <c:forEach items="${cityList}" var="element">
+                  <option value="${element.getId()}">${element.getName()}</option>
+                </c:forEach>
+              </select>
+            </div>
           </div>
           <div class="col-3">
-            <select class="form-select mt-3" aria-label="Default select example" name="toCity">
-              <option value="${element.getId()}">${element.getName()}</option>
-            </select>
+            <div class="input-group mt-3">
+              <span class="input-group-text" id="toCitys" style="padding: 20px 10px;">To</span>
+              <select class="form-select" aria-label="Default select example" name="toCity"
+                      id="toCity">
+                <c:forEach items="${cityList}" var="element">
+                  <option value="${element.getId()}">${element.getName()}</option>
+                </c:forEach>
+              </select>
+            </div>
           </div>
           <div class="col-3">
             <div class="form-outline mt-3">
-              <input type="number" id="numberPeple" name="numberPeple" class="form-control" />
+              <input type="number" id="numberPeple" name="numberPeple" class="form-control" value="1"/>
               <label class="form-label" for="numberPeple">No.of Passengers</label>
             </div>
           </div>
@@ -150,12 +165,18 @@
             </div>
           </div>
           <div class="col-3">
-            <select class="form-select mt-3" aria-label="Default select example" name="chairId">
-              <option value="${element.getId()}">${element.getName()}</option>
-            </select>
+            <div class="input-group mt-3">
+              <span class="input-group-text" id="chairs" style="padding: 20px 5px;">Seat</span>
+              <select class="form-select" aria-label="Default select example" name="chair"
+                      id="chair">
+                <c:forEach items="${chairList}" var="element">
+                  <option value="${element.getId()}">${element.getName()}</option>
+                </c:forEach>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="button-submit text-center mt-3">
+        <div class="col-10 mt-3 button-submit text-center mt-3">
           <button type="submit" class="btn btn-primary btn-rounded mt-3 ">Search</button>
         </div>
       </form>

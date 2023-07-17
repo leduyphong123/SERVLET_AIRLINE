@@ -76,22 +76,24 @@
   <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
+        <a href="/dasboard" class="list-group-item list-group-item-action py-2 ripple " aria-current="true">
           <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
         </a>
-        <a href="/city" class="list-group-item list-group-item-action py-2 ripple ">
+        <a href="/city?page=1" class="list-group-item list-group-item-action py-2 ripple">
           <i class="fas fa-chart-area fa-fw me-3"></i><span>City</span>
         </a>
-        <a href="/airline" class="list-group-item list-group-item-action py-2 ripple"><i
+        <a href="/airline?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                 class="fas fa-lock fa-fw me-3"></i><span>AirLine</span></a>
-        <a href="/airplane" class="list-group-item list-group-item-action py-2 ripple"><i
+        <a href="/airplane?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                 class="fas fa-chart-line fa-fw me-3"></i><span>AirPlane</span></a>
-        <a href="/chair" class="list-group-item list-group-item-action py-2 ripple"><i
+        <a href="/chair?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                 class="fas fa-chart-line fa-fw me-3"></i><span>Chair</span></a>
-        <a href="/airplaneChair" class="list-group-item list-group-item-action py-2 ripple"><i
+        <a href="/airplaneChair?page=1" class="list-group-item list-group-item-action py-2 ripple"><i
                 class="fas fa-chart-line fa-fw me-3"></i><span>Airplane Chair</span></a>
-        <a href="/flight" class="list-group-item list-group-item-action py-2 ripple active"><i
+        <a href="/flight?page=1" class="list-group-item list-group-item-action py-2 ripple active"><i
                 class="fas fa-chart-line fa-fw me-3"></i><span>Flight</span></a>
+        <a href="/booking?action=adminView&page=1" class="list-group-item list-group-item-action py-2 ripple"><i
+                class="fas fa-chart-line fa-fw me-3"></i><span>Booking</span></a>
 
       </div>
     </div>
@@ -138,7 +140,7 @@
               <a class="dropdown-item" href="#">Settings</a>
             </li>
             <li>
-              <a class="dropdown-item" href="#">Logout</a>
+              <a class="dropdown-item" href="/login?action=logout">Logout</a>
             </li>
           </ul>
         </li>
@@ -167,10 +169,10 @@
               <tr>
                 <th class="col" scope="col">#</th>
                 <th class="col" scope="col">Name Airplane</th>
-                <th class="col" scope="col">To date</th>
                 <th class="col" scope="col">Form date</th>
-                <th class="col" scope="col">To city</th>
+                <th class="col" scope="col">To date</th>
                 <th class="col" scope="col">Form city</th>
+                <th class="col" scope="col">To city</th>
                 <th class="col-4" scope="col">Action</th>
               </tr>
               </thead>
@@ -180,10 +182,10 @@
                 <tr>
                   <td scope="row"><%=i+=1%></td>
                   <td>${element.getApName()}</td>
-                  <td>${element.getToDate()}</td>
                   <td>${element.getFormDate()}</td>
-                  <td>${element.getToCity()}</td>
+                  <td>${element.getToDate()}</td>
                   <td>${element.getFormCity()}</td>
+                  <td>${element.getToCity()}</td>
                   <td class="d-flex justify-content-center">
                     <a class="btn btn-info action-btn" href="/flight?aution=view&id=${element.getId()}" role="button">View</a>
                     <a class="btn btn-primary action-btn" href="/flight?aution=edit&id=${element.getId()}" role="button">Edit</a>

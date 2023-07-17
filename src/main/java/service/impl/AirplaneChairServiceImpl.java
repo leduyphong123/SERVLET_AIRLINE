@@ -89,7 +89,7 @@ public class AirplaneChairServiceImpl implements AirplaneChairService {
     @Override
     public AirplaneChairDTO getJoinById(int id) throws SQLException, ClassNotFoundException {
         for (AirplaneChairDTO element : getJoinAll()){
-            if (element.getcId() == id){
+            if (element.getId() == id){
                 return element;
             }
         }
@@ -97,8 +97,8 @@ public class AirplaneChairServiceImpl implements AirplaneChairService {
     }
 
     @Override
-    public List<AirplaneChairDTO> getByApIdDate(int apId, Timestamp toDate) throws SQLException, ClassNotFoundException {
-        String[] resultIn = toDate.toString().split(" ");
+    public List<AirplaneChairDTO> getByApIdDate(int apId, Timestamp formDate) throws SQLException, ClassNotFoundException {
+        String[] resultIn = formDate.toString().split(" ");
         List<AirplaneChairDTO> airplaneChairDTOList = new ArrayList<>();
         for (AirplaneChairDTO element : getJoinAll()){
             String[] resultOut = element.getPlayDate().toString().split(" ");
@@ -108,4 +108,45 @@ public class AirplaneChairServiceImpl implements AirplaneChairService {
         }
         return airplaneChairDTOList;
     }
+
+    @Override
+    public List<AirplaneChairDTO> getByIdAirplaneDate(int airplaneId, Date airplaneChairDate) throws SQLException, ClassNotFoundException {
+        List<AirplaneChairDTO> airplaneChairDTOList = new ArrayList<>();
+        for (AirplaneChairDTO element : getJoinAll()){
+            if (element.getApId() == airplaneId && airplaneChairDate.equals(element.getPlayDate())){
+                airplaneChairDTOList.add(element);
+            }
+        }
+        return airplaneChairDTOList;
+    }
+
+    @Override
+    public void updateUsed(int id,int used) throws SQLException, ClassNotFoundException {
+        repository.updateUsed(id,used);
+    }
+    private int limit=5;
+    @Override
+    public List<AirplaneChairDTO> getPageAll(int page) throws SQLException, ClassNotFoundException {
+        int start = (page - 1) * limit;
+        return repository.getPageAll(start, limit);
+    }
+
+    @Override
+    public int getIndexPage() throws SQLException, ClassNotFoundException {
+        return getIndex();
+    }
+    private int getIndex() throws SQLException, ClassNotFoundException {
+        int indexPageAll = getAll().size();
+        float curent =(float) indexPageAll/limit;
+        String[] temp = String.valueOf(curent).split("\\.");
+        int allPage=0;
+        if (Integer.parseInt(temp[1])>0){
+            allPage=Integer.parseInt(temp[0])+1;
+        }else {
+            allPage=Integer.parseInt(temp[0]);
+        }
+        return allPage;
+    }
+
+
 }

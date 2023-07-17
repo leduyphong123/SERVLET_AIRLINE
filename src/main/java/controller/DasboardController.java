@@ -9,6 +9,12 @@ public class DasboardController extends HttpServlet{
     public DasboardController (){}
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null){
+
+        }else {
+            response.sendRedirect("/login");
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/admin/dasboard.jsp");
         dispatcher.forward(request,response);
     }

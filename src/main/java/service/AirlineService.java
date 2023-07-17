@@ -17,4 +17,10 @@ public interface AirlineService {
     boolean create(String name, String shortName) throws SQLException, ClassNotFoundException;
 
     boolean active(int id, boolean state) throws SQLException, ClassNotFoundException;
+
+    List<Airline> getPageAll(int page) throws SQLException, ClassNotFoundException;
+
+    int getIndexPage() throws SQLException, ClassNotFoundException;
+
+    List<Airline> getStateAll() throws SQLException, ClassNotFoundException;
 }

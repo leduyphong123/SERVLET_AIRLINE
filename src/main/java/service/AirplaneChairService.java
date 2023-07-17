@@ -26,5 +26,15 @@ public interface AirplaneChairService {
 
     AirplaneChairDTO getJoinById(int id) throws SQLException, ClassNotFoundException;
 
-    List<AirplaneChairDTO> getByApIdDate(int apId, Timestamp toDate) throws SQLException, ClassNotFoundException;
+    List<AirplaneChairDTO> getByApIdDate(int apId, Timestamp formDate) throws SQLException, ClassNotFoundException;
+
+
+    List<AirplaneChairDTO> getByIdAirplaneDate(int airplaneId, Date airplaneChairDate) throws SQLException, ClassNotFoundException;
+
+
+    void updateUsed(int id, int used) throws SQLException, ClassNotFoundException;
+
+    List<AirplaneChairDTO> getPageAll(int page) throws SQLException, ClassNotFoundException;
+
+    int getIndexPage() throws SQLException, ClassNotFoundException;
 }

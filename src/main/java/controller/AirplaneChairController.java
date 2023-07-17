@@ -38,43 +38,55 @@ public class AirplaneChairController extends HttpServlet{
     }
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String aution = request.getParameter("aution");
-        if (aution == null) {
-            aution = "";
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null){
+            String aution = request.getParameter("aution");
+            if (aution == null) {
+                aution = "";
+            }
+            RequestDispatcher dispatcher = null;
+            switch (aution) {
+                case "create":
+                    try {
+                        createView(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "edit":
+                    try {
+                        editViewCity(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "view":
+                    try {
+                        viewDetail(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                default:
+                    try {
+                        getJoinAll(request, response);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+            }
+        }else {
+            response.sendRedirect("/login");
         }
-        RequestDispatcher dispatcher = null;
-        switch (aution) {
-            case "create":
-                try {
-                    createView(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            case "edit":
-                try {
-                    editViewCity(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            case "view":
-                try {
-                    viewDetail(request, response);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            default:
-                getJoinAll(request, response);
-                break;
-        }
+
     }
 
     private void viewDetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ClassNotFoundException, ServletException, IOException {
@@ -89,8 +101,8 @@ public class AirplaneChairController extends HttpServlet{
 
     private void createView(HttpServletRequest request, HttpServletResponse response) throws SQLException, ClassNotFoundException, ServletException, IOException {
         RequestDispatcher dispatcher;
-        List<Airplane> elementListAirplaneMin =  airplaneService.getAll();
-        List<Chair> elementListChairMin = chairService.getAll();
+        List<Airplane> elementListAirplaneMin =  airplaneService.getStateAll();
+        List<Chair> elementListChairMin = chairService.getStateAll();
         request.setAttribute("elementListAirplaneMin",elementListAirplaneMin);
         request.setAttribute("elementListChairMin",elementListChairMin);
         dispatcher = request.getRequestDispatcher("view/admin/createAirplaneChair.jsp");
@@ -111,16 +123,18 @@ public class AirplaneChairController extends HttpServlet{
         dispatcher.forward(request, response);
     }
 
-    private void getJoinAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void getJoinAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
         List<AirplaneChairDTO> airplaneChairDTOList = null;
+        int page = Integer.parseInt(request.getParameter("page"));
         try {
-            airplaneChairDTOList = airplaneChairService.getJoinAll();
+            airplaneChairDTOList = airplaneChairService.getPageAll(page);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
+        int indexPage = airplaneChairService.getIndexPage();
+        request.setAttribute("indexPage",indexPage);
         request.setAttribute("elementList", airplaneChairDTOList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/admin/airplaneChair.jsp");
         dispatcher.forward(request, response);

@@ -96,6 +96,33 @@ public class FlightServiceImpl implements FlightService {
         return null;
     }
 
+    @Override
+    public void updateUsed(int idFlight, int flightUsedCapacity) throws SQLException, ClassNotFoundException {
+        repository.updateUsed(idFlight,flightUsedCapacity);
+    }
+    private int limit = 5;
+    @Override
+    public List<FlightDTO> getPageAll(int page) throws SQLException, ClassNotFoundException {
+        int start = (page - 1) * limit;
+        return repository.getPageAll(start, limit);
+    }
+
+    @Override
+    public int getIndexPage() throws SQLException, ClassNotFoundException {
+        return getIndex();
+    }
+    private int getIndex() throws SQLException, ClassNotFoundException {
+        int indexPageAll = getJoinAll().size();
+        float curent =(float) indexPageAll/limit;
+        String[] temp = String.valueOf(curent).split("\\.");
+        int allPage=0;
+        if (Integer.parseInt(temp[1])>0){
+            allPage=Integer.parseInt(temp[0])+1;
+        }else {
+            allPage=Integer.parseInt(temp[0]);
+        }
+        return allPage;
+    }
     public Timestamp parseDate(String date){
         char[] chairTo = date.toCharArray();
         for (int i = 0; i< chairTo.length;i++){
