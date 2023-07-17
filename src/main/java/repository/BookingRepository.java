@@ -35,8 +35,10 @@ public class BookingRepository {
         Connection conn = ConectionConfig.getConection();
         PreparedStatement pstm = null;
         try {
-            String parseDate = booking.getBookingDate().toString().substring(0,19);
-            Timestamp paserDate = Timestamp.valueOf(parseDate);
+            String timeRound =booking.getBookingDate().toString().substring(18,21);
+            String miuter = String.valueOf(Math.round( Float.parseFloat(timeRound)));
+            String parseDate = booking.getBookingDate().toString().substring(0,18);
+            Timestamp paserDate = Timestamp.valueOf(parseDate+miuter.substring(0,1));
             pstm = conn.prepareStatement(R_ONE_BOOKING);
             pstm.setTimestamp(1, paserDate);
             pstm.setLong(2, booking.getPrice());

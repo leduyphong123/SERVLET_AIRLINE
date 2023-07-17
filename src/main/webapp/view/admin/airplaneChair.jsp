@@ -205,7 +205,19 @@
             <div class="text-center">Not List</div>
           </c:otherwise>
         </c:choose>
+        <div class="mt-5 d-flex justify-content-center">
+          <c:choose>
+            <c:when test="${indexPage <= 1}">
 
+            </c:when>
+            <c:otherwise>
+              <c:forEach begin="1" end="${indexPage}" var="index">
+                <a href="/airplaneChair?page=${index}" class="btn btn-link border">${index}</a>
+              </c:forEach>
+            </c:otherwise>
+          </c:choose>
+
+        </div>
       </div>
     </div>
 

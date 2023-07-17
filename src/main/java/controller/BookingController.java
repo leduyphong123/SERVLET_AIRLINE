@@ -15,7 +15,7 @@ import java.sql.Date;
 import java.util.List;
 
 @WebServlet(name = "BookingController",value = "/booking")
-public class BookingController extends HttpServlet{
+public class    BookingController extends HttpServlet{
     private BookingService bookingService;
     private SearchService searchService;
     private CityService cityService;
